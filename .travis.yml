@@ -7,15 +7,14 @@ addons:
       - docker-ce
 
 env:
-  - DOCKER_CLI_EXPERIMENTAL=enabled
+  - DOCKER_CLI_EXPERIMENTAL=enabled VERSION=${TRAVIS_BRANCH}
 
 script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - make docker-multiarch
+  - make docker-build
 
 deploy:
   provider: script
   script: make docker-push
-  env: VERSION=${TRAVIS_TAG}
   on:
     tags: true
