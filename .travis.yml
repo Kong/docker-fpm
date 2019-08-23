@@ -1,11 +1,21 @@
 dist: xenial
 language: generic
 
+addons:
+  apt:
+    packages:
+      - docker-ce
+
+env:
+  - DOCKER_CLI_EXPERIMENTAL=enabled
+
 script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - make docker-multiarch
+
 deploy:
   provider: script
   script: make docker-push
+  env: VERSION=${TRAVIS_TAG}
   on:
     tags: true
