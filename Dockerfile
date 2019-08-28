@@ -1,9 +1,4 @@
-ARG arch=amd64
-
-FROM balenalib/aarch64-ubuntu:xenial AS arm64
-FROM balenalib/amd64-ubuntu:xenial AS amd64
-
-FROM ${arch}
+FROM ubuntu:xenial
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -18,7 +13,8 @@ RUN set -x \
 		ca-certificates \
 		libffi-dev \
 		ruby-ffi \
-		rpm
+		rpm \
+	&& apt-get install --reinstall -y bash
 
 RUN gem install fpm \
 	&& mkdir /src/
