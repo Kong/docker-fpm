@@ -1,20 +1,25 @@
 dist: xenial
 language: generic
 
-addons:
-  apt:
-    packages:
-      - docker-ce
-
 env:
-  - DOCKER_CLI_EXPERIMENTAL=enabled VERSION=${TRAVIS_BRANCH}
+  global:
+    - DOCKER_BUILDKIT=1
+    - DOCKER_MACHINE_ARM64_NAME=travis-ci-docker-fpm-${TRAVIS_JOB_ID}
 
-script:
+before_script:
+  - make setup-ci
+  - make setup-build
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  
+script:
   - make docker-build
+
+after_script:
+  - make cleanup-build
 
 deploy:
   provider: script
   script: make docker-push
+  env: VERSION=${TRAVIS_BRANCH}
   on:
     tags: true

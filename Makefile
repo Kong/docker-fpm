@@ -1,39 +1,41 @@
-SHELL = bash -e
 REVISION ?= 1
 VERSION ?= 0.0.1
 IMG := kong/fpm
 REGISTRY ?= docker.io
-ARCHES ?= arm64 amd64
+DOCKER_MACHINE_ARM64_NAME ?= docker-machine-arm64-${USER}
+
+.PHONY: setup-ci
+setup-ci:
+	.ci/setup-ci.sh
+
+.PHONY: setup-build
+setup-build:
+	docker buildx create --name multibuilder
+	docker-machine create --driver amazonec2 --amazonec2-instance-type a1.medium --amazonec2-region us-east-1 --amazonec2-ami ami-0c46f9f09e3a8c2b5 --amazonec2-monitoring --amazonec2-tags created-by,${USER} ${DOCKER_MACHINE_ARM64_NAME}
+	docker context create ${DOCKER_MACHINE_ARM64_NAME} --docker \
+	host=tcp://`docker-machine config ${DOCKER_MACHINE_ARM64_NAME} | grep tcp | awk -F "//" '{print $$2}'`,\
+	ca=`docker-machine config ${DOCKER_MACHINE_ARM64_NAME} | grep tlscacert | awk -F "=" '{print $$2}' | tr -d "\""`,\
+	cert=`docker-machine config ${DOCKER_MACHINE_ARM64_NAME} | grep tlscert | awk -F "=" '{print $$2}' | tr -d "\""`,\
+	key=`docker-machine config ${DOCKER_MACHINE_ARM64_NAME} | grep tlskey | awk -F "=" '{print $$2}' | tr -d "\""`
+	docker buildx create --name multibuilder --append ${DOCKER_MACHINE_ARM64_NAME}
+	docker buildx inspect multibuilder --bootstrap
+	docker buildx use multibuilder
 
 .PHONY: docker-build
 docker-build:
-	for a in $(ARCHES); do \
-		docker run --rm --privileged multiarch/qemu-user-static:register --reset ;\
-		docker build --build-arg ARCH=$$a -t $(IMG):$$a-$(VERSION) . ;\
-		docker tag $(IMG):$$a-$(VERSION) $(IMG):$$a-latest ;\
-	done
-
-.PHONY: docker-multiarch
-docker-multiarch: docker-build
-	arches= ;\
-	for a in $(ARCHES); do \
-		arches="$$arches $(IMG):$$a-$(VERSION)" ;\
-		docker push $(IMG):$$a-$(VERSION) ;\
-	done ;\
-	docker manifest create $(IMG):$(VERSION) $$arches  ;\
-	for a in $(ARCHES); do \
-		docker manifest annotate $(IMG):$(VERSION) $(IMG):$$a-$(VERSION) --os linux --arch $$a ;\
-	done
+	docker buildx build --platform="linux/amd64,linux/arm64" -t $(IMG):$(VERSION) .
 
 .PHONY: docker-push
-docker-push: docker-build docker-multiarch
-	docker manifest push $(IMG):$(VERSION)
+docker-push: docker-build
+	docker buildx build --push --platform="linux/amd64,linux/arm64" -t $(IMG):$(VERSION) .
+
+.PHONY: cleanup-build
+cleanup-build:
+	-docker buildx use default
+	-docker buildx rm multibuilder
+	-docker context rm ${DOCKER_MACHINE_ARM64_NAME}
+	-docker-machine rm --force ${DOCKER_MACHINE_ARM64_NAME}
 
 .PHONY: clean
 clean:
-	for a in $(ARCHES); do \
-		docker rmi $(IMG):$$a-$(VERSION) || true ;\
-		docker rmi $(IMG):$$a-latest || true ;\
-	done ;\
-	docker rmi $(IMG):latest || true ;\
 	rm -rf ~/.docker/manifests/$(shell echo $(REGISTRY)/$(IMG) | tr '/' '_')-$(VERSION) || true
