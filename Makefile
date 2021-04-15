@@ -1,5 +1,5 @@
 REVISION ?= 1
-VERSION ?= 0.0.2
+VERSION ?= 0.0.3
 IMG := kong/fpm
 REGISTRY ?= docker.io
 DOCKER_MACHINE_ARM64_NAME ?= docker-machine-arm64-${USER}
