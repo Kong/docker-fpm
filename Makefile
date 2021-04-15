@@ -1,5 +1,5 @@
 REVISION ?= 1
-VERSION ?= 0.0.1
+VERSION ?= 0.0.2
 IMG := kong/fpm
 REGISTRY ?= docker.io
 DOCKER_MACHINE_ARM64_NAME ?= docker-machine-arm64-${USER}
@@ -23,11 +23,11 @@ setup-build:
 
 .PHONY: docker-build
 docker-build:
-	docker buildx build --platform="linux/amd64,linux/arm64" -t $(IMG):$(VERSION) .
+	docker buildx build --platform="linux/amd64,linux/arm64,linux/arm/v7" -t $(IMG):$(VERSION) .
 
 .PHONY: docker-push
 docker-push: docker-build
-	docker buildx build --push --platform="linux/amd64,linux/arm64" -t $(IMG):$(VERSION) .
+	docker buildx build --push --platform="linux/amd64,linux/arm64,linux/arm/v7" -t $(IMG):$(VERSION) .
 
 .PHONY: cleanup-build
 cleanup-build:
