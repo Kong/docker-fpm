@@ -1,9 +1,10 @@
-FROM ubuntu:xenial
+FROM ubuntu:focal
 
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN set -x \
     && apt-get update \
+    && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
         ruby \
         ruby-dev \
@@ -16,7 +17,8 @@ RUN set -x \
         ruby-ffi \
         rpm \
         git \
-    && apt-get install --reinstall -y bash
+    && apt-get install --reinstall -y bash \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN gem install fpm \
     && mkdir /src/ \
