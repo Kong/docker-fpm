@@ -15,10 +15,12 @@ RUN set -x \
         libffi-dev \
         ruby-ffi \
         rpm \
+        git \
     && apt-get install --reinstall -y bash
 
 RUN gem install fpm \
-    && mkdir /src/
+    && mkdir /src/ \
+    && fpm --version
 
 WORKDIR /src/
 
