@@ -1,0 +1,52 @@
+on:
+  push:
+    branches:
+      - chore/ci-github-actions
+
+name: Create Github and Docker Release
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      - 
+        name: Release
+        id: release
+        uses: ahmadnassri/action-semantic-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - 
+        name: Docker meta
+        if: steps['release']['outputs']['published'] == 'true'
+        id: meta
+        uses: crazy-max/ghaction-docker-meta@v2
+        with:
+          images: kong/fpm
+          tags: |
+            type=ref,event=branch
+            type=sha
+      -
+        name: Set up QEMU
+        if: steps['release']['outputs']['published'] == 'true'
+        id: qemu
+        uses: docker/setup-qemu-action@v1
+        with:
+          image: tonistiigi/binfmt:latest
+          platforms: all
+      -
+        name: Setup buildx
+        if: steps['release']['outputs']['published'] == 'true'
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Build
+        if: steps['release']['outputs']['published'] == 'true'
+        uses: docker/bake-action@v1
+        with:
+          files: |
+            ./docker-bake.hcl
+            ${{ steps.meta.outputs.bake-file }}
+          targets: build
