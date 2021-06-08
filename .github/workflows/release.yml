@@ -48,6 +48,7 @@ jobs:
       if: steps['release']['outputs']['published'] == 'true'
       uses: docker/bake-action@v1
       with:
+        push: true
         files: |
           ./docker-bake.hcl
           ${{ steps.meta.outputs.bake-file }}
