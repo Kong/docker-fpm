@@ -32,13 +32,6 @@ jobs:
         images: kong/fpm
         tags: |
           type=ref,event=branch
-    - name: Build Only
-      uses: docker/bake-action@v1
-      with:
-        files: |
-          ./docker-bake.hcl
-          ${{ steps.meta.outputs.bake-file }}
-        targets: build
     - name: Build & Push
       uses: docker/bake-action@v1
       with:
