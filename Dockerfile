@@ -17,9 +17,9 @@ RUN set -x \
         ruby-ffi \
         rpm \
         git \
-    && apt-get install --reinstall -y bash
-
-RUN gem install fpm \
+    && apt-get install --reinstall -y bash \
+    && rm -rf /var/lib/apt/lists/* \
+    && gem install fpm \
     && mkdir /src/ \
     && fpm --version
 
