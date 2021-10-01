@@ -5,15 +5,15 @@ export ARCH=`echo $DOCKER_TAG | cut -d- -f2`
 
 case $ARCH in
   amd64)
-    docker pull "$DOCKER_REPO:$TAG" || docker manifest create -a "$DOCKER_REPO:$TAG" "$IMAGE_NAME"
+    docker manifest create -a "$DOCKER_REPO:$TAG" "$IMAGE_NAME"
     docker manifest annotate "$DOCKER_REPO:$TAG" "$IMAGE_NAME" --os linux --arch $ARCH
     ;;
   arm64)
-    docker pull "$DOCKER_REPO:$TAG" || docker manifest create -a "$DOCKER_REPO:$TAG" "$IMAGE_NAME"
+    docker manifest create -a "$DOCKER_REPO:$TAG" "$IMAGE_NAME"
     docker manifest annotate "$DOCKER_REPO:$TAG" "$IMAGE_NAME" --os linux --arch $ARCH --variant v8
     ;;
   arm32)
-    docker pull "$DOCKER_REPO:$TAG" || docker manifest create -a "$DOCKER_REPO:$TAG" "$IMAGE_NAME"
+    docker manifest create -a "$DOCKER_REPO:$TAG" "$IMAGE_NAME"
     docker manifest annotate "$DOCKER_REPO:$TAG" "$IMAGE_NAME" --os linux --arch arm --variant v7
     ;;
 esac
