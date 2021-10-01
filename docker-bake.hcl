@@ -9,13 +9,13 @@ target "amd64" {
 }
 
 target "arm64v8" {
-    dockerfile = "Dockerfile.arm64v8"
-    tags = ["docker.io/hutchic/fpm:arm64v8"]
+    dockerfile = "Dockerfile.arm64"
+    tags = ["docker.io/hutchic/fpm:arm64"]
     platforms = ["linux/arm64"]
 }
 
 target "arm32v7" {
-    dockerfile = "Dockerfile.arm32v7"
-    tags = ["docker.io/hutchic/fpm:arm32v7"]
+    dockerfile = "Dockerfile.arm32"
+    tags = ["docker.io/hutchic/fpm:arm32"]
     platforms = ["linux/arm/v7"]
 }

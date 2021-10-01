@@ -3,16 +3,19 @@
 export TAG=`echo $DOCKER_TAG | cut -d- -f1`
 export ARCH=`echo $DOCKER_TAG | cut -d- -f2`
 
-docker manifest create -a "$DOCKER_REPO:$TAG" "$IMAGE_NAME"
+docker pull "$DOCKER_REPO:$TAG" || true
 
 case $ARCH in
   amd64)
+    docker manifest create -a "$DOCKER_REPO:$TAG" "$IMAGE_NAME"
     docker manifest annotate "$DOCKER_REPO:$TAG" "$IMAGE_NAME" --os linux --arch $ARCH
     ;;
   arm64)
+    docker manifest create -a "$DOCKER_REPO:$TAG" "$IMAGE_NAME"
     docker manifest annotate "$DOCKER_REPO:$TAG" "$IMAGE_NAME" --os linux --arch $ARCH --variant v8
     ;;
   arm32)
+    docker manifest create -a "$DOCKER_REPO:$TAG" "$IMAGE_NAME"
     docker manifest annotate "$DOCKER_REPO:$TAG" "$IMAGE_NAME" --os linux --arch arm --variant v7
     ;;
 esac
