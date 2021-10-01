@@ -1,0 +1,35 @@
+FROM alpine AS builder
+
+# Download QEMU, see https://github.com/docker/hub-feedback/issues/1261
+ENV QEMU_URL https://github.com/balena-io/qemu/releases/download/v3.0.0%2Bresin/qemu-3.0.0+resin-aarch64.tar.gz
+RUN apk add curl && curl -L ${QEMU_URL} | tar zxvf - -C . --strip-components 1
+
+FROM arm64v8/ubuntu:xenial
+
+# Add QEMU
+COPY --from=builder qemu-aarch64-static /usr/bin
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN set -x \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        ruby \
+        ruby-dev \
+        gcc \
+        build-essential \
+        libffi-dev \
+        make \
+        ca-certificates \
+        libffi-dev \
+        ruby-ffi \
+        rpm \
+        git \
+    && apt-get install --reinstall -y bash \
+    && gem install fpm \
+    && mkdir /src/ \
+    && fpm --version
+
+WORKDIR /src/
+
+CMD /usr/local/bin/fpm
