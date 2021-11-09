@@ -4,7 +4,7 @@ FROM alpine@sha256:e1c082e3d3c45cccac829840a25941e679c25d438cc8412c2fa221cf1a824
 ENV QEMU_URL https://github.com/balena-io/qemu/releases/download/v3.0.0%2Bresin/qemu-3.0.0+resin-aarch64.tar.gz
 RUN apk add curl && curl -L ${QEMU_URL} | tar zxvf - -C . --strip-components 1
 
-FROM arm64v8/ubuntu:xenial@sha256:70fa660340a344b46cc56b3606dc8abd3bf48b5cbce13d01c720e9793a6bc3c0
+FROM arm64v8/ubuntu:xenial@sha256:1a7c76d63d768423a9908192ee61b5f25ecabf170dc009575db16a7b6f001896
 
 # Add QEMU
 COPY --from=builder qemu-aarch64-static /usr/bin
