@@ -1,10 +1,10 @@
-FROM alpine AS builder
+FROM alpine@sha256:e1c082e3d3c45cccac829840a25941e679c25d438cc8412c2fa221cf1a824e6a AS builder
 
 # Download QEMU, see https://github.com/docker/hub-feedback/issues/1261
 ENV QEMU_URL https://github.com/balena-io/qemu/releases/download/v3.0.0%2Bresin/qemu-3.0.0+resin-arm.tar.gz
 RUN apk add curl && curl -L ${QEMU_URL} | tar zxvf - -C . --strip-components 1
 
-FROM arm32v7/ubuntu:xenial
+FROM arm32v7/ubuntu:xenial@sha256:b722e2654241f9681f4719dce7aa16a2f0c35769e17a636f5b39a33967d1aeb8
 
 # Add QEMU
 COPY --from=builder qemu-arm-static /usr/bin
@@ -13,6 +13,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN set -x \
     && apt-get update \
+    && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
         ruby \
         ruby-dev \

@@ -1,9 +1,10 @@
-FROM amd64/ubuntu:xenial
+FROM amd64/ubuntu:xenial@sha256:d388ba452d5f3f29399fc38c6928a65e4f28328a413c2edeee354569e7ab9bc9
 
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN set -x \
     && apt-get update \
+    && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
         ruby \
         ruby-dev \
