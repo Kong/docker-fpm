@@ -13,3 +13,5 @@ docker manifest rm "$IMAGE_NAME:$TAG" || true
 docker manifest create "$IMAGE_NAME:$TAG" "$IMAGE_NAME":"$TAG"-amd64
 docker manifest create -a "$IMAGE_NAME:$TAG" "$IMAGE_NAME":"$TAG"-arm64
 docker manifest create -a "$IMAGE_NAME:$TAG" "$IMAGE_NAME":"$TAG"-arm32
+
+docker manifest push "$IMAGE_NAME:$TAG"
