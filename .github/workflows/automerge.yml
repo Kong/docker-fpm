@@ -6,8 +6,12 @@ on: # yamllint disable-line rule:truthy
     types: [labeled, unlabeled, synchronize, review_requested, opened, reopened]
 
 permissions:
-  pull-requests: write
+  actions: write
   contents: write
+  deployments: write
+  packages: write
+  pull-requests: write
+
 
 jobs:
   dependabot-automerge:
@@ -28,4 +32,4 @@ jobs:
       run: gh pr merge --auto --squash "$PR_URL"
       env:
         PR_URL: ${{github.event.pull_request.html_url}}
-        GITHUB_TOKEN: ${{secrets.AUTO_MERGE_TOKEN}}
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
