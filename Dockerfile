@@ -1,13 +1,13 @@
-FROM alpine@sha256:635f0aa53d99017b38d1a0aa5b2082f7812b03e3cdb299103fe77b5c8a07f1d2  AS builder
+FROM amd64/ubuntu:xenial@sha256:a3785f78ab8547ae2710c89e627783cfa7ee7824d3468cae6835c9f4eae23ff7
+RUN echo "disabled"
 
-# Download QEMU, see https://github.com/docker/hub-feedback/issues/1261
-ENV QEMU_URL https://github.com/balena-io/qemu/releases/download/v3.0.0%2Bresin/qemu-3.0.0+resin-arm.tar.gz
-RUN apk add curl && curl -L ${QEMU_URL} | tar zxvf - -C . --strip-components 1
+FROM arm64v8/ubuntu:xenial@sha256:70fa660340a344b46cc56b3606dc8abd3bf48b5cbce13d01c720e9793a6bc3c0
+RUN echo "disabled"
 
 FROM arm32v7/ubuntu:xenial@sha256:b722e2654241f9681f4719dce7aa16a2f0c35769e17a636f5b39a33967d1aeb8
+RUN echo "disabled"
 
-# Add QEMU
-COPY --from=builder qemu-arm-static /usr/bin
+FROM ubuntu:xenial
 
 ENV DEBIAN_FRONTEND noninteractive
 
