@@ -26,7 +26,7 @@ jobs:
       id: meta
       uses: crazy-max/ghaction-docker-meta@v3
       with:
-        images: kong/fpm
+        images: hutchic/fpm
         tags: |
           type=semver,pattern={{version}},value=${{ steps.release.outputs.release-version }}
           type=ref,event=branch
