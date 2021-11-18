@@ -2,9 +2,6 @@
 name: Auto Actions
 
 on:  # yamllint disable-line rule:truthy
-  pull_request:
-    branches:
-    - main
   pull_request_target:
     types: [labeled, unlabeled, synchronize, review_requested, opened, reopened]
 
