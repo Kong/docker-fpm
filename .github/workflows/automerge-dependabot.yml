@@ -1,4 +1,5 @@
 ---
+# File is synced from Kong/template-generic and will be overwritten
 name: Auto Actions
 
 on: pull_request_target # yamllint disable-line rule:truthy

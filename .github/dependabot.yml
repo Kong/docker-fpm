@@ -1,4 +1,5 @@
 ---
+# File is synced from Kong/template-generic and will be overwritten
 version: 2
 updates:
 - package-ecosystem: docker
