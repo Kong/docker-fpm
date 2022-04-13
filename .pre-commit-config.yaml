@@ -29,7 +29,7 @@ repos:
   - id: detect-secrets
     args: [--baseline, .secrets.baseline]
 - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
-  rev: 0.1.0
+  rev: 0.1.1
   hooks:
   - id: yamlfmt
     args: [--mapping, '2', --sequence, '2', --offset, '0', --width, '150']
