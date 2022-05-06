@@ -36,7 +36,7 @@ jobs:
     - name: Docker meta
       if: steps['release']['outputs']['published'] == 'true'
       id: meta
-      uses: crazy-max/ghaction-docker-meta@v3
+      uses: crazy-max/ghaction-docker-meta@v4
       with:
         images: kong/fpm
         tags: |
