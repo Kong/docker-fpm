@@ -30,7 +30,7 @@ jobs:
         targets: build
     - name: Release
       id: release
-      uses: ahmadnassri/action-semantic-release@v1
+      uses: ahmadnassri/action-semantic-release@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Docker meta
