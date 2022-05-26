@@ -1,13 +1,13 @@
-FROM amd64/ubuntu:xenial@sha256:a3785f78ab8547ae2710c89e627783cfa7ee7824d3468cae6835c9f4eae23ff7
+FROM amd64/ubuntu:bionic@sha256:971a12d7e92a23183dead8bfc415aa650e7deb1cc5fed11a3d21f759a891fde9
 RUN echo "disabled"
 
-FROM arm64v8/ubuntu:xenial@sha256:70fa660340a344b46cc56b3606dc8abd3bf48b5cbce13d01c720e9793a6bc3c0
+FROM arm64v8/ubuntu:bionic@sha256:6f911cac13c27a4f9936b949161f57f1fd27228b821e9912815fa941dc7bec7f
 RUN echo "disabled"
 
-FROM arm32v7/ubuntu:xenial@sha256:b722e2654241f9681f4719dce7aa16a2f0c35769e17a636f5b39a33967d1aeb8
+FROM arm32v7/ubuntu:bionic@sha256:ec5715e4fd292b212edd9062c1abe247298ed3acf87b9555b55cc9b16e7f628a
 RUN echo "disabled"
 
-FROM ubuntu:xenial
+FROM ubuntu:bionic
 
 ENV DEBIAN_FRONTEND noninteractive
 
