@@ -26,6 +26,7 @@ RUN set -x \
         ruby-ffi \
         rpm \
         git \
+        gpg \
     && apt-get install --reinstall -y bash \
     && gem install fpm \
     && mkdir /src/ \
