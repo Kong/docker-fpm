@@ -27,6 +27,7 @@ RUN set -x \
         rpm \
         git \
         gpg \
+        gpg-agent \
     && apt-get install --reinstall -y bash \
     && gem install fpm \
     && mkdir /src/ \
