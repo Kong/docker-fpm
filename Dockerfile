@@ -1,4 +1,4 @@
-FROM amd64/ubuntu:bionic@sha256:8da4e9509bfe5e09df6502e7a8e93c63e4d0d9dbaa9f92d7d767f96d6c20a78a
+FROM amd64/ubuntu:bionic@sha256:e4771b7160543c6e43968b4e9795be9ddcad9d573edd7cd7aebd3ce61326fc7a
 RUN echo "disabled"
 
 FROM arm64v8/ubuntu:bionic@sha256:6a4619c02fbaf80504f316f42bd4b732831d9590e9c1c0df2b6f294ffbee86c9
