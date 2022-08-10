@@ -4,7 +4,7 @@ RUN echo "disabled"
 FROM arm64v8/ubuntu:bionic@sha256:8c646d06cb9c9b9c24c004704a313dd3e23a783989b5b155fcc4a5b2796fc90c
 RUN echo "disabled"
 
-FROM arm32v7/ubuntu:bionic@sha256:5160a59a5bae201c4eb0a97052a99a609d90d2ef5c6fca75687723ce94bc469b
+FROM arm32v7/ubuntu:bionic@sha256:f0e293e967551be5f21f8d1c60c8cd3c58f341547f98cb65cc2ad1fb7839b045
 RUN echo "disabled"
 
 FROM ubuntu:bionic
