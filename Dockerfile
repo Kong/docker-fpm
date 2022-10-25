@@ -1,4 +1,4 @@
-FROM ubuntu:jammy@sha256:35fb073f9e56eb84041b0745cb714eff0f7b225ea9e024f703cab56aaa5c7720
+FROM ubuntu:jammy@sha256:7cfe75438fc77c9d7235ae502bf229b15ca86647ac01c844b272b56326d56184
 RUN echo "disabled"
 
 FROM ubuntu:jammy
