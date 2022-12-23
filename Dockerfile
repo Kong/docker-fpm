@@ -10,11 +10,17 @@ ENV DEBIAN_FRONTEND noninteractive
 
 SHELL ["/bin/bash", "-e", "-x", "-c"]
 
+COPY patches/fpm-apk-archive-header.patch /tmp/fpm.patch
+
 RUN if [[ "$FPM_VERSION" == 'latest' ]]; then \
         gem install --no-document fpm; \
     else \
         gem install --no-document fpm -v "$FPM_VERSION"; \
-    fi \
+    fi
+
+# https://github.com/jordansissel/fpm/issues/1227
+RUN cd $(gem env gemhome)/gems/fpm-* \
+    && patch -p 0 -ruN < /tmp/fpm.patch \
     && mkdir -pv /src/ \
     && fpm --version
 
