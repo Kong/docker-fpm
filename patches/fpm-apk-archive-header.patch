@@ -1,0 +1,12 @@
+diff --color -Naur lib/fpm/package/apk.rb.orig lib/fpm/package/apk.rb
+--- lib.orig/fpm/package/apk.rb    2022-12-23 14:03:55.583865965 -0800
++++ lib/fpm/package/apk.rb    2022-12-23 14:06:56.040703096 -0800
+@@ -252,7 +252,7 @@
+
+           # directories have a magic string inserted into their name
+           full_record_path = extension_header[TAR_NAME_OFFSET_START..TAR_NAME_OFFSET_END].delete("\0")
+-          full_record_path = add_paxstring(full_record_path)
++          # full_record_path = add_paxstring(full_record_path)
+
+           # hash data contents with sha1, if there is any content.
+           if(typeflag == '5')

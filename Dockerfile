@@ -1,31 +1,27 @@
-FROM ubuntu:jammy@sha256:27cb6e6ccef575a4698b66f5de06c7ecd61589132d5a91d098f7f3f9285415a9
+FROM ruby:latest@sha256:6a8cd3ae45904f72fad21739df5b7eed642254a1a44e600ddeeba1322f6af310
 RUN echo "disabled"
 
-FROM ubuntu:jammy
+FROM ruby:latest
+
+ARG FPM_VERSION=1.15.0
+ENV FPM_VERSION="${FPM_VERSION}"
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN set -x \
-    && apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y --no-install-recommends \
-        ruby \
-        ruby-dev \
-        gcc \
-        build-essential \
-        libffi-dev \
-        make \
-        ca-certificates \
-        libffi-dev \
-        ruby-ffi \
-        rpm \
-        git \
-        gpg \
-        gpg-agent \
-        expect \
-    && apt-get install --reinstall -y bash \
-    && gem install fpm \
-    && mkdir /src/ \
+SHELL ["/bin/bash", "-e", "-x", "-c"]
+
+COPY patches/fpm-apk-archive-header.patch /tmp/fpm.patch
+
+RUN if [[ "$FPM_VERSION" == 'latest' ]]; then \
+        gem install --no-document fpm; \
+    else \
+        gem install --no-document fpm -v "$FPM_VERSION"; \
+    fi
+
+# https://github.com/jordansissel/fpm/issues/1227
+RUN cd $(gem env gemhome)/gems/fpm-* \
+    && patch -p 0 -ruN < /tmp/fpm.patch \
+    && mkdir -pv /src/ \
     && fpm --version
 
 WORKDIR /src/
