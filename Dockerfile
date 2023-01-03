@@ -12,7 +12,11 @@ SHELL ["/bin/bash", "-e", "-x", "-c"]
 
 COPY patches/fpm-apk-archive-header.patch /tmp/fpm.patch
 
-RUN if [[ "$FPM_VERSION" == 'latest' ]]; then \
+RUN set -x \
+    && apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends rpm \
+    && if [[ "$FPM_VERSION" == 'latest' ]]; then \
         gem install --no-document fpm; \
     else \
         gem install --no-document fpm -v "$FPM_VERSION"; \
