@@ -23,7 +23,7 @@ jobs:
     - name: Setup buildx
       uses: docker/setup-buildx-action@v2
     - name: Build Only
-      uses: docker/bake-action@v2
+      uses: docker/bake-action@v3
       with:
         files: |
           ./docker-bake.hcl
@@ -51,7 +51,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Build & Push
       if: steps['release']['outputs']['published'] == 'true'
-      uses: docker/bake-action@v2
+      uses: docker/bake-action@v3
       with:
         push: 'true'
         files: |
