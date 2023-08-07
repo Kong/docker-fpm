@@ -30,4 +30,4 @@ RUN cd $(gem env gemhome)/gems/fpm-* \
 
 WORKDIR /src/
 
-CMD /usr/local/bin/fpm
+CMD /usr/local/bundle/bin/fpm
