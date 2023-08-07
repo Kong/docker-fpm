@@ -3,7 +3,7 @@ RUN echo "disabled"
 
 FROM ruby:latest
 
-ARG FPM_VERSION=1.15.0
+ARG FPM_VERSION=1.15.1
 ENV FPM_VERSION="${FPM_VERSION}"
 
 ENV DEBIAN_FRONTEND noninteractive
