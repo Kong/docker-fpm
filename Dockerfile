@@ -3,7 +3,7 @@ RUN echo "disabled"
 
 FROM ruby:latest
 
-ARG FPM_VERSION=1.15.0
+ARG FPM_VERSION=1.15.1
 ENV FPM_VERSION="${FPM_VERSION}"
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -30,4 +30,4 @@ RUN cd $(gem env gemhome)/gems/fpm-* \
 
 WORKDIR /src/
 
-CMD /usr/local/bin/fpm
+CMD /usr/local/bundle/bin/fpm
