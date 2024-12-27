@@ -1,4 +1,4 @@
-FROM ruby:latest@sha256:4c290398322e29e9066134b57562a97ef46261500f1e921c320f0edee9e7cc3f
+FROM ruby:latest@sha256:45ca46a37e16d4f0b383ff6f400edc7e096361ac05c91ead86481ecc332e665e
 RUN echo "disabled"
 
 FROM ruby:latest
